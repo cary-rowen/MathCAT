@@ -117,8 +117,8 @@
 
     "limit": "prefix=极限，当",
     "tends-to": "infix=趋于",
-    "tends-to-from-above": "infix=从右侧趋于",
-    "tends-to-from-below": "infix=从左侧趋于",
+    "tends-to-from-above": "infix=从上方趋于",
+    "tends-to-from-below": "infix=从下方趋于",
 
 
     ### Sets

@@ -219,13 +219,13 @@ fn limit_arrows_and_variable_bars_use_mathematical_context() -> Result<()> {
         "zh",
         "SimpleSpeak",
         "<math><munder><mo>lim</mo><mrow><mi>x</mi><mo>&#x2197;</mo><mn>0</mn></mrow></munder></math>",
-        "极限，当 x 从左侧趋于 0",
+        "极限，当 x 从下方趋于 0",
     )?;
     test(
         "zh",
         "SimpleSpeak",
         "<math><munder><mo>lim</mo><mrow><mi>x</mi><mo>&#x2198;</mo><mn>0</mn></mrow></munder></math>",
-        "极限，当 x 从右侧趋于 0",
+        "极限，当 x 从上方趋于 0",
     )?;
     test(
         "zh",
@@ -385,6 +385,18 @@ fn function_intents_use_natural_chinese_argument_order() -> Result<()> {
         "ClearSpeak",
         "<math><mrow intent='conditional-probability($a,$b)'><mi arg='a'>a</mi><mi arg='b'>b</mi></mrow></math>",
         "在 b 条件下 a 的概率",
+    )?;
+    test(
+        "zh",
+        "ClearSpeak",
+        "<math><mrow intent='tends-to-from-above($a,$b)'><mi arg='a'>x</mi><mi arg='b'>y</mi></mrow></math>",
+        "x 从上方趋于 y",
+    )?;
+    test(
+        "zh",
+        "ClearSpeak",
+        "<math><mrow intent='tends-to-from-below($a,$b)'><mi arg='a'>x</mi><mi arg='b'>y</mi></mrow></math>",
+        "x 从下方趋于 y",
     )?;
     test(
         "zh",
@@ -2177,12 +2189,12 @@ fn calculus_formulas_cover_limits_derivatives_and_improper_integrals() -> Result
         (
             "left-hand-limit",
             "<math><munder><mo>lim</mo><mrow><mi>x</mi><mo>&#x2197;</mo><mn>2</mn></mrow></munder><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo></math>",
-            "极限，当 x 从左侧趋于 2; f x",
+            "极限，当 x 从下方趋于 2; f x",
         ),
         (
             "right-hand-limit",
             "<math><munder><mo>lim</mo><mrow><mi>x</mi><mo>&#x2198;</mo><mn>2</mn></mrow></munder><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo></math>",
-            "极限，当 x 从右侧趋于 2; f x",
+            "极限，当 x 从上方趋于 2; f x",
         ),
         (
             "first-derivative",

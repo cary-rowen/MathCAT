@@ -742,13 +742,13 @@
  - "↗":                                          # 0x2197
     - test:
         if: "ancestor::*[2][self::m:limit]"
-        then: [T: "从左侧趋于"]
+        then: [T: "从下方趋于"]
         else: [T: "右上箭头"]
 
  - "↘":                                          # 0x2198
     - test:
         if: "ancestor::*[2][self::m:limit]"
-        then: [T: "从右侧趋于"]
+        then: [T: "从上方趋于"]
         else: [T: "右下箭头"]
 
  - "↙": [T: "左下箭头"]                    # 0x2199
