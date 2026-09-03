@@ -2059,7 +2059,7 @@ fn unicode_dingbats_editorial_marks_and_compatibility_units_are_precise() -> Res
         ("33c2", "上午"),
         ("33d8", "下午"),
         ("33da", "拍伦琴"),
-        ("33d4", "毫靶恩"),
+        ("33d4", "毫巴"),
         ("33c7", "公司"),
         ("33ff", "伽"),
         ("fe64", "小型小于号"),
