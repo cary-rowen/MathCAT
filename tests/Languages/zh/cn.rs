@@ -2108,6 +2108,99 @@ fn audited_unicode_ranges_keep_their_boundaries() -> Result<()> {
 }
 
 #[test]
+fn mathtype_greek_and_digit_ranges_keep_verified_character_order() -> Result<()> {
+    // Check every mapped MathType slot in U+F404-U+F555, including easily shifted variants.
+    let capitals = [
+        "阿尔法",
+        "贝塔",
+        "伽马",
+        "德尔塔",
+        "艾普西隆",
+        "泽塔",
+        "伊塔",
+        "西塔",
+        "约塔",
+        "卡帕",
+        "拉姆达",
+        "缪",
+        "纽",
+        "克西",
+        "奥密克戎",
+        "派",
+        "柔",
+        "西塔",
+        "西格马",
+        "陶",
+        "宇普西隆",
+        "斐",
+        "希",
+        "普西",
+        "欧米伽",
+    ];
+    let lowercase = [
+        "阿尔法",
+        "贝塔",
+        "伽马",
+        "德尔塔",
+        "艾普西隆",
+        "泽塔",
+        "伊塔",
+        "西塔",
+        "约塔",
+        "卡帕",
+        "拉姆达",
+        "缪",
+        "纽",
+        "克西",
+        "奥密克戎",
+        "派",
+        "柔",
+        "词尾西格马",
+        "西格马",
+        "陶",
+        "宇普西隆",
+        "斐",
+        "希",
+        "普西",
+        "欧米伽",
+    ];
+    let variants = ["偏导数", "艾普西隆", "西塔", "卡帕", "斐", "柔", "派"];
+    let families = [
+        (0xf408, 0xf421, 0xf422, 0xf43b, "粗体 ", "粗体纳布拉"),
+        (0xf442, 0xf45b, 0xf45c, 0xf475, "", "斜体纳布拉"),
+        (0xf47c, 0xf495, 0xf496, 0xf4af, "粗体 ", "粗斜体纳布拉"),
+        (0xf4b6, 0xf4cf, 0xf4d0, 0xf4e9, "粗体 ", "粗体纳布拉"),
+        (0xf4f0, 0xf509, 0xf50a, 0xf523, "粗体 ", "粗体纳布拉"),
+    ];
+
+    let check = |codepoint: u32, expected: &str| -> Result<()> {
+        let expr = format!("<math><mi>&#x{codepoint:x};</mi></math>");
+        test("zh", "SimpleSpeak", &expr, expected)
+            .map_err(|error| anyhow::anyhow!("U+{codepoint:04X}: {error}"))
+    };
+
+    check(0xf404, "无点 i")?;
+    for (capital, nabla, small, variant, prefix, nabla_name) in families {
+        for (offset, name) in capitals.iter().enumerate() {
+            check(capital + offset as u32, &format!("{prefix}大写 {name}"))?;
+        }
+        check(nabla, nabla_name)?;
+        for (offset, name) in lowercase.iter().enumerate() {
+            check(small + offset as u32, &format!("{prefix}{name}"))?;
+        }
+        for (offset, name) in variants.iter().enumerate() {
+            check(variant + offset as u32, &format!("{prefix}{name}"))?;
+        }
+    }
+    for start in [0xf52e, 0xf54c] {
+        for digit in 0..=9 {
+            check(start + digit, &format!("粗体 {digit}"))?;
+        }
+    }
+    Ok(())
+}
+
+#[test]
 fn enclosed_alphanumeric_names_use_consistent_mainland_terms() -> Result<()> {
     // Negative circled capitals and double-circled digits must match NVDA's established terms.
     let cases = [
