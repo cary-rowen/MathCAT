@@ -1368,6 +1368,134 @@ fn unicode_full_structured_symbols_have_verified_readings() -> Result<()> {
 }
 
 #[test]
+fn unicode_script_characters_keep_standalone_and_structural_readings() -> Result<()> {
+    let superscripts = [
+        ("2070", "mn", "零次方", "x 的 0 次方"),
+        ("2071", "mi", "i次方", "x 的 i 次方"),
+        ("2074", "mn", "四次方", "x 的 4 次方"),
+        ("2075", "mn", "五次方", "x 的 5 次方"),
+        ("2076", "mn", "六次方", "x 的 6 次方"),
+        ("2077", "mn", "七次方", "x 的 7 次方"),
+        ("2078", "mn", "八次方", "x 的 8 次方"),
+        ("2079", "mn", "九次方", "x 的 9 次方"),
+        ("207a", "mo", "上标加号", "x 上标 +"),
+        ("207b", "mo", "上标减号", "x 上标 −"),
+        ("207c", "mo", "上标等号", "x 上标 ="),
+        ("207d", "mo", "上标左圆括号", "x 上标 ("),
+        ("207e", "mo", "上标右圆括号", "x 上标 )"),
+        ("207f", "mi", "n次方", "x 的 n 次方"),
+    ];
+    let subscripts = [
+        ("2080", "mn", "下标零", "x 下标 0"),
+        ("2081", "mn", "下标一", "x 下标 1"),
+        ("2082", "mn", "下标二", "x 下标 2"),
+        ("2083", "mn", "下标三", "x 下标 3"),
+        ("2084", "mn", "下标四", "x 下标 4"),
+        ("2085", "mn", "下标五", "x 下标 5"),
+        ("2086", "mn", "下标六", "x 下标 6"),
+        ("2087", "mn", "下标七", "x 下标 7"),
+        ("2088", "mn", "下标八", "x 下标 8"),
+        ("2089", "mn", "下标九", "x 下标 9"),
+        ("208a", "mo", "下标加号", "x 下标 + 结束下标"),
+        ("208b", "mo", "下标减号", "x 下标 − 结束下标"),
+        ("208c", "mo", "下标等号", "x 下标 = 结束下标"),
+        ("208d", "mo", "下标左圆括号", "x 下标 ( 结束下标"),
+        ("208e", "mo", "下标右圆括号", "x 下标 ) 结束下标"),
+        ("2090", "mi", "下标a", "x 下标 a"),
+        ("2091", "mi", "下标e", "x 下标 e"),
+        ("2092", "mi", "下标o", "x 下标 o"),
+        ("2093", "mi", "下标x", "x 下标 x"),
+        ("2095", "mi", "下标h", "x 下标 h"),
+        ("2096", "mi", "下标k", "x 下标 k"),
+        ("2097", "mi", "下标l", "x 下标 l"),
+        ("2098", "mi", "下标m", "x 下标 m"),
+        ("2099", "mi", "下标n", "x 下标 n"),
+        ("209a", "mi", "下标p", "x 下标 p"),
+        ("209b", "mi", "下标s", "x 下标 s"),
+        ("209c", "mi", "下标t", "x 下标 t"),
+    ];
+
+    for style in ["SimpleSpeak", "ClearSpeak"] {
+        for &(codepoint, tag, standalone, structured) in &superscripts {
+            let expr = format!("<math><mo>&#x{codepoint};</mo></math>");
+            test("zh", style, &expr, standalone)
+                .map_err(|error| anyhow::anyhow!("{style}/U+{codepoint}/alone: {error}"))?;
+            let expr =
+                format!("<math><msup><mi>x</mi><{tag}>&#x{codepoint};</{tag}></msup></math>");
+            test("zh", style, &expr, structured)
+                .map_err(|error| anyhow::anyhow!("{style}/U+{codepoint}/msup: {error}"))?;
+        }
+        for &(codepoint, tag, standalone, structured) in &subscripts {
+            let expr = format!("<math><mo>&#x{codepoint};</mo></math>");
+            test("zh", style, &expr, standalone)
+                .map_err(|error| anyhow::anyhow!("{style}/U+{codepoint}/alone: {error}"))?;
+            let expr =
+                format!("<math><msub><mi>x</mi><{tag}>&#x{codepoint};</{tag}></msub></math>");
+            test("zh", style, &expr, structured)
+                .map_err(|error| anyhow::anyhow!("{style}/U+{codepoint}/msub: {error}"))?;
+        }
+    }
+    Ok(())
+}
+
+#[test]
+fn audited_unicode_gap_symbols_have_direct_and_contextual_coverage() -> Result<()> {
+    // TINY and MINY are proper operator names, not translations of the size adjectives.
+    let direct = [
+        ("20e2", "外加屏幕"),
+        ("220b", "包含"),
+        ("220c", "不包含"),
+        ("220d", "小型包含"),
+        ("2256", "环等于"),
+        ("228b", "真超集"),
+        ("228d", "多重集乘法"),
+        ("22e4", "方形像或不等于"),
+        ("22e5", "方形原像或不等于"),
+        ("22ee", "垂直省略号"),
+        ("22f0", "右上对角线省略号"),
+        ("22f1", "右下对角线省略号"),
+        ("2a07", "双逻辑与运算符"),
+        ("2a08", "双逻辑或运算符"),
+        ("2a87", "小于且单线不等于"),
+        ("2a88", "大于且单线不等于"),
+        ("2a89", "小于且不约等于"),
+        ("2a8a", "大于且不约等于"),
+        ("2acc", "真超集"),
+        ("2298", "带圆圈除号斜线"),
+        ("22d4", "横截于"),
+        ("29fe", "Tiny 算子"),
+        ("29ff", "Miny 算子"),
+        ("2ae1", "带 S 的垂直符号"),
+    ];
+    let contextual = [
+        ("220b", "x", "大写 a 包含 x"),
+        ("220c", "x", "大写 a 不包含 x"),
+        ("220d", "x", "大写 a 小型包含 x"),
+        ("2298", "B", "大写 a 带圆圈除号斜线, 大写 b"),
+        ("22d4", "B", "大写 a 横截于 大写 b"),
+        ("2a87", "b", "大写 a 小于且单线不等于 b"),
+        ("2a88", "b", "大写 a 大于且单线不等于 b"),
+        ("2ae1", "B", "大写 a 带 S 的垂直符号, 大写 b"),
+    ];
+
+    for style in ["SimpleSpeak", "ClearSpeak"] {
+        for &(codepoint, expected) in &direct {
+            let expr = format!("<math><mo>&#x{codepoint};</mo></math>");
+            test("zh", style, &expr, expected)
+                .map_err(|error| anyhow::anyhow!("{style}/U+{codepoint}/direct: {error}"))?;
+        }
+        for &(codepoint, rhs, expected) in &contextual {
+            let expr = format!(
+                "<math><mi>A</mi><mo>&#x{codepoint};</mo><mi>{rhs}</mi></math>"
+            );
+            test("zh", style, &expr, expected)
+                .map_err(|error| anyhow::anyhow!("{style}/U+{codepoint}/context: {error}"))?;
+        }
+    }
+    Ok(())
+}
+
+#[test]
 fn audited_unicode_symbols_keep_precise_names() -> Result<()> {
     // Each case locks a corrected identity, direction, shape, or spatial relationship.
     let cases = [
@@ -1380,7 +1508,7 @@ fn audited_unicode_symbols_keep_precise_names() -> Result<()> {
         ("21ff", "左右开口箭头"),
         ("224c", "全等于"),
         ("2247", "既不近似等于也不等于"),
-        ("2298", "带圈斜杠"),
+        ("2298", "带圆圈除号斜线"),
         ("229f", "方框减号"),
         ("22a0", "方框乘号"),
         ("22a1", "方框点运算符"),
