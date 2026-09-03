@@ -1985,6 +1985,17 @@ fn mathtype_double_struck_greek_matches_the_original_character_table() -> Result
         test("zh", "SimpleSpeak", &expr, &expected)
             .map_err(|error| anyhow::anyhow!("U+{codepoint}: {error}"))?;
     }
+
+    let special = [
+        ("f237", "双线体词尾西格马"),
+        ("f250", "双线体柔"),
+        ("f251", "双线体斐"),
+    ];
+    for (codepoint, expected) in special {
+        let expr = format!("<math><mi>&#x{codepoint};</mi></math>");
+        test("zh", "SimpleSpeak", &expr, expected)
+            .map_err(|error| anyhow::anyhow!("U+{codepoint}: {error}"))?;
+    }
     Ok(())
 }
 
@@ -2054,6 +2065,38 @@ fn audited_unicode_ranges_keep_their_boundaries() -> Result<()> {
         ("f19a", "大写 ae 连字"),
         ("f19b", "大写 德语双 s"),
         ("f19c", "大写 带斜线的 o"),
+        ("f260", "粗体 大写 a"),
+        ("f279", "粗体 大写 z"),
+        ("f27a", "粗体 a"),
+        ("f293", "粗体 z"),
+        ("f294", "大写 a"),
+        ("f2ad", "大写 z"),
+        ("f2ae", "a"),
+        ("f2c7", "z"),
+        ("f2c8", "粗体 大写 a"),
+        ("f2e1", "粗体 大写 z"),
+        ("f2e2", "粗体 a"),
+        ("f2fb", "粗体 z"),
+        ("f300", "大写 a"),
+        ("f319", "大写 z"),
+        ("f31a", "a"),
+        ("f333", "z"),
+        ("f334", "粗体 大写 a"),
+        ("f34d", "粗体 大写 z"),
+        ("f34e", "粗体 a"),
+        ("f367", "粗体 z"),
+        ("f368", "大写 a"),
+        ("f381", "大写 z"),
+        ("f382", "a"),
+        ("f39b", "z"),
+        ("f39c", "粗体 大写 a"),
+        ("f3b5", "粗体 大写 z"),
+        ("f3b6", "粗体 a"),
+        ("f3cf", "粗体 z"),
+        ("f3d0", "大写 a"),
+        ("f3e9", "大写 z"),
+        ("f3ea", "a"),
+        ("f403", "z"),
     ];
 
     for (codepoint, expected) in cases {
