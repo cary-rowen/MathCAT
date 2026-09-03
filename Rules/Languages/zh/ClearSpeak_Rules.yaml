@@ -129,6 +129,19 @@
 # Fraction rules
 # Mixed numbers mostly "just work" because the invisible char reads as "and" and other parts read properly on their own
 
+- name: second-partial-derivative
+  tag: fraction
+  match:
+  - "*[1][self::m:mrow and count(*)=2 and"
+  - "     *[1][self::m:power and *[1][.='∂'] and *[2][self::m:mn and .='2']]] and"
+  - "*[2][self::m:mrow and count(*)=2 and *[1][.='∂'] and"
+  - "     *[2][self::m:power and *[2][self::m:mn and .='2']]]"
+  replace:
+  - x: "*[1]/*[2]"
+  - T: "对"
+  - x: "*[2]/*[2]/*[1]"
+  - T: "的二阶偏导数"
+
 # Units (e.g., meters per second)
 - name: per-fraction
   tag: fraction
@@ -141,13 +154,7 @@
   replace:
   - x: "*[1]"
   - CT: "每"      # phrase('5 meters 'per' second)
-  - test:
-      if: "*[2][self::m:power and *[2][self::m:mn]]"
-      then:
-      - x: "substring(ToOrdinal(*[2]/*[2]), 2)"
-      - TC: "次方"
-      - x: "*[2]/*[1]"
-      else: [x: "*[2]"]
+  - x: "*[2]"
 
 - name: common-fraction
   tag: fraction
@@ -249,6 +256,25 @@
         if: $ClearSpeak_Trig = 'ArcTrig'
         then: [bookmark: "*[2]/@id", T: "反", x: "*[1]"]
         else: [bookmark: "*[2]/@id", x: "*[1]", T: "的反函数"] # default/Auto
+
+- name: squared-or-cubed-unit
+  tag: power
+  match: "BaseNode(*[1])[contains(@data-intent-property, ':unit')] and *[2][self::m:mn and (.='2' or .='3')]"
+  replace:
+  - test:
+      if: "*[2][.='2']"
+      then: [TC: "平方"]
+      else: [TC: "立方"]
+  - x: "*[1]"
+
+- name: unit-power
+  tag: power
+  match: "BaseNode(*[1])[contains(@data-intent-property, ':unit')]"
+  replace:
+  - x: "*[1]"
+  - CT: "的"
+  - x: "*[2]"
+  - T: "次方"
 
 - name: function-squared-or-cubed
   tag: power

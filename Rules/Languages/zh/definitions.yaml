@@ -123,7 +123,7 @@
 
     ### Sets
     "set": "function= ; 集合: 集合",
-    "set-difference": "function=差集 | 与 || infix=减去",
+    "set-difference": "function=差集 | 与 || infix=差集",
     "complement": "function=补集",
     "empty-set": "nofix=空集",
     "cardinality": "function=基数", # NOTE: does not have a defined speech template in website
@@ -280,7 +280,7 @@
     "does-not-belong-to": "infix=不属于",
     "does-not-divide": "infix=不整除",
     "dot-product": "infix=点乘", # Operator form; complete binary expressions use the textbook noun phrase below.
-    "downwards-diagonal-ellipsis": "infix=右下省略号",
+    "downwards-diagonal-ellipsis": "infix=右下对角线省略号",
     "direct-product": "infix=直积",
     "element-of": "infix=属于",
     "ellipsis": "infix=省略号",
@@ -301,8 +301,8 @@
     "maps-to": "infix=映射到",
     "member-of": "infix=属于",
     "minus-or-plus": "infix=减或加",
-    "not-subset": "infix=不真包含于",
-    "not-superset": "infix=不真包含",
+    "not-subset": "infix=非子集",
+    "not-superset": "infix=非超集",
     "not-equal-to": "infix=不等于",
     "not-member-of": "infix=不属于",
     "not-parallel-to": "infix=不平行于",
@@ -319,17 +319,17 @@
     "range-separator": "infix=到",
     "ratio": "infix=比",
     "similar": "infix=相似于",
-    "subset": "infix=真包含于",
-    "subset-or-equal": "infix=包含于",
+    "subset": "infix=子集",
+    "subset-or-equal": "infix=子集或等于",
     "succeeds": "infix=后于",
     "such-that": "infix=满足",
-    "superset": "infix=真包含",
-    "superset-or-equal": "infix=包含",
+    "superset": "infix=超集",
+    "superset-or-equal": "infix=超集或等于",
     "tilde": "infix=波浪号",
     "times": "infix=乘",
     "union": "infix=并",
-    "upwards-diagonal-ellipsis": "infix=右上省略号",
-    "vertical-ellipsis": "infix=竖省略号",
+    "upwards-diagonal-ellipsis": "infix=右上对角线省略号",
+    "vertical-ellipsis": "infix=垂直省略号",
     "xor": "infix=异或",
 
     ## Default fixity postfix

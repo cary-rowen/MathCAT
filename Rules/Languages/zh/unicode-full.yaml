@@ -15,7 +15,7 @@
  - "¯":                                            # 0xaf
      - test:
         if: "ancestor::m:modified-variable and preceding-sibling::*[1][self::m:mi]"
-        then: [T: "长音符"]
+        then: [T: "上横线"]
         else: [T: "长音符"]
  - "²": [T: "二"]                                 # 0xb2
  - "³": [T: "三"]                               # 0xb3
@@ -363,47 +363,211 @@
  - "⁒": [T: "商业负号"]               # 0x2052
  - "⁗": [T: "四撇号"]                     # 0x2057
  - "⁠": [T: ""]                                     # 0x2060
- - "⁰": [T: "零次方"]                 # 0x2070
- - "ⁱ": [T: "i次方"]                  # 0x2071
- - "⁴": [T: "四次方"]                 # 0x2074
- - "⁵": [T: "五次方"]                  # 0x2075
- - "⁶": [T: "六次方"]                  # 0x2076
- - "⁷": [T: "七次方"]                # 0x2077
- - "⁸": [T: "八次方"]                 # 0x2078
- - "⁹": [T: "九次方"]                  # 0x2079
- - "⁺": [T: "上标加号"]               # 0x207a
- - "⁻": [T: "上标减号"]                   # 0x207b
- - "⁼": [T: "上标等号"]             # 0x207c
- - "⁽": [T: "上标左圆括号"]        # 0x207d
- - "⁾": [T: "上标右圆括号"]       # 0x207e
- - "ⁿ": [T: "n次方"]                  # 0x207f
- - "₀": [T: "下标零"]                            # 0x2080
- - "₁": [T: "下标一"]                             # 0x2081
- - "₂": [T: "下标二"]                             # 0x2082
- - "₃": [T: "下标三"]                           # 0x2083
- - "₄": [T: "下标四"]                            # 0x2084
- - "₅": [T: "下标五"]                            # 0x2085
- - "₆": [T: "下标六"]                             # 0x2086
- - "₇": [T: "下标七"]                           # 0x2087
- - "₈": [T: "下标八"]                           # 0x2088
- - "₉": [T: "下标九"]                            # 0x2089
- - "₊": [T: "下标加号"]                 # 0x208a
- - "₋": [T: "下标减号"]                # 0x208b
- - "₌": [T: "下标等号"]               # 0x208c
- - "₍": [T: "下标左圆括号"]          # 0x208d
- - "₎": [T: "下标右圆括号"]         # 0x208e
- - "ₐ": [T: "下标a"]                               # 0x2090
- - "ₑ": [T: "下标e"]                               # 0x2091
- - "ₒ": [T: "下标o"]                               # 0x2092
- - "ₓ": [T: "下标x"]                               # 0x2093
- - "ₕ": [T: "下标h"]                               # 0x2095
- - "ₖ": [T: "下标k"]                               # 0x2096
- - "ₗ": [T: "下标l"]                               # 0x2097
- - "ₘ": [T: "下标m"]                               # 0x2098
- - "ₙ": [T: "下标n"]                               # 0x2099
- - "ₚ": [T: "下标p"]                               # 0x209a
- - "ₛ": [T: "下标s"]                               # 0x209b
- - "ₜ": [T: "下标t"]                               # 0x209c
+ - "⁰":                                          # 0x2070
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "0"]
+        else: [T: "零次方"]
+ - "ⁱ":                                          # 0x2071
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "i"]
+        else: [T: "i次方"]
+ - "⁴":                                          # 0x2074
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "4"]
+        else: [T: "四次方"]
+ - "⁵":                                          # 0x2075
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "5"]
+        else: [T: "五次方"]
+ - "⁶":                                          # 0x2076
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "6"]
+        else: [T: "六次方"]
+ - "⁷":                                          # 0x2077
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "7"]
+        else: [T: "七次方"]
+ - "⁸":                                          # 0x2078
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "8"]
+        else: [T: "八次方"]
+ - "⁹":                                          # 0x2079
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "9"]
+        else: [T: "九次方"]
+ - "⁺":                                          # 0x207a
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "+"]
+        else: [T: "上标加号"]
+ - "⁻":                                          # 0x207b
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "−"]
+        else: [T: "上标减号"]
+ - "⁼":                                          # 0x207c
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "="]
+        else: [T: "上标等号"]
+ - "⁽":                                          # 0x207d
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "("]
+        else: [T: "上标左圆括号"]
+ - "⁾":                                          # 0x207e
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: ")"]
+        else: [T: "上标右圆括号"]
+ - "ⁿ":                                          # 0x207f
+    - test:
+        if: "parent::*[name(.)='msup' or name(.)='msubsup' or name(.)='power' or name(.)='skip-super' or name(.)='say-super']"
+        then: [T: "n"]
+        else: [T: "n次方"]
+ - "₀":                                          # 0x2080
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "0"]
+        else: [T: "下标零"]
+ - "₁":                                          # 0x2081
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "1"]
+        else: [T: "下标一"]
+ - "₂":                                          # 0x2082
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "2"]
+        else: [T: "下标二"]
+ - "₃":                                          # 0x2083
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "3"]
+        else: [T: "下标三"]
+ - "₄":                                          # 0x2084
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "4"]
+        else: [T: "下标四"]
+ - "₅":                                          # 0x2085
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "5"]
+        else: [T: "下标五"]
+ - "₆":                                          # 0x2086
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "6"]
+        else: [T: "下标六"]
+ - "₇":                                          # 0x2087
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "7"]
+        else: [T: "下标七"]
+ - "₈":                                          # 0x2088
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "8"]
+        else: [T: "下标八"]
+ - "₉":                                          # 0x2089
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "9"]
+        else: [T: "下标九"]
+ - "₊":                                          # 0x208a
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "+"]
+        else: [T: "下标加号"]
+ - "₋":                                          # 0x208b
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "−"]
+        else: [T: "下标减号"]
+ - "₌":                                          # 0x208c
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "="]
+        else: [T: "下标等号"]
+ - "₍":                                          # 0x208d
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "("]
+        else: [T: "下标左圆括号"]
+ - "₎":                                          # 0x208e
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: ")"]
+        else: [T: "下标右圆括号"]
+ - "ₐ":                                          # 0x2090
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "a"]
+        else: [T: "下标a"]
+ - "ₑ":                                          # 0x2091
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "e"]
+        else: [T: "下标e"]
+ - "ₒ":                                          # 0x2092
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "o"]
+        else: [T: "下标o"]
+ - "ₓ":                                          # 0x2093
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "x"]
+        else: [T: "下标x"]
+ - "ₕ":                                          # 0x2095
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "h"]
+        else: [T: "下标h"]
+ - "ₖ":                                          # 0x2096
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "k"]
+        else: [T: "下标k"]
+ - "ₗ":                                          # 0x2097
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "l"]
+        else: [T: "下标l"]
+ - "ₘ":                                          # 0x2098
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "m"]
+        else: [T: "下标m"]
+ - "ₙ":                                          # 0x2099
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "n"]
+        else: [T: "下标n"]
+ - "ₚ":                                          # 0x209a
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "p"]
+        else: [T: "下标p"]
+ - "ₛ":                                          # 0x209b
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "s"]
+        else: [T: "下标s"]
+ - "ₜ":                                          # 0x209c
+    - test:
+        if: "parent::*[name(.)='msub' or name(.)='msubsup' or name(.)='indexed-by']"
+        then: [T: "t"]
+        else: [T: "下标t"]
  - "₠": [T: "欧洲货币单位符号"]             # 0x20a0
  - "₡": [T: "科朗符号"]                              # 0x20a1
  - "₢": [T: "克鲁赛罗符号"]                            # 0x20a2
@@ -449,7 +613,7 @@
  - "⃟": [T: "外加菱形"]     # 0x20df
  - "⃠": [T: "外加圆圈反斜杠"] # 0x20e0
  - "⃡": [T: "上加左右箭头"] # 0x20e1
- - "⃢": [T: "外加方框"]      # 0x20e2
+ - "⃢": [T: "外加屏幕"]      # 0x20e2
  - "⃣": [T: "外加键帽"]      # 0x20e3
  - "⃤": [T: "外加向上指向三角形"] # 0x20e4
  - "⃥": [T: "叠加反斜杠"] # 0x20e5
@@ -578,13 +742,13 @@
  - "↗":                                          # 0x2197
     - test:
         if: "ancestor::*[2][self::m:limit]"
-        then: [T: "右上箭头"]
+        then: [T: "从左侧趋于"]
         else: [T: "右上箭头"]
 
  - "↘":                                          # 0x2198
     - test:
         if: "ancestor::*[2][self::m:limit]"
-        then: [T: "右下箭头"]
+        then: [T: "从右侧趋于"]
         else: [T: "右下箭头"]
 
  - "↙": [T: "左下箭头"]                    # 0x2199
@@ -758,9 +922,9 @@
               - else_if: $ClearSpeak_SetMemberSymbol = 'In'
                 then: [T: "属于"]
               - else: [T: "属于"]              # $ClearSpeak_SetMemberSymbol = 'Belongs'
- - "∋": [T: "包含元素"]                 # 0x220b
- - "∌": [T: "不包含元素"]         # 0x220c
- - "∍": [T: "包含元素"]                 # 0x220d
+ - "∋": [T: "包含成员"]                 # 0x220b
+ - "∌": [T: "不包含成员"]         # 0x220c
+ - "∍": [T: "小型包含成员"]             # 0x220d
  - "∎": [T: "证毕"]                        # 0x220e
  - "∏": [T: "连乘"]                             # 0x220f
  - "∐": [T: "余积"]                           # 0x2210
@@ -777,7 +941,7 @@
         else: [T: "负或正"]
  - "∔": [T: "点加号"]                            # 0x2214
  - "∕": [T: "除以"]                          # 0x2215
- - "∖": [T: "减去"]                           # 0x2216
+ - "∖": [T: "差集"]                           # 0x2216
  - "∗": [T: "乘"]                               # 0x2217
  - "∘": [T: "复合"]                       # 0x2218
  - "∙":                                            # 0x2219
@@ -840,21 +1004,21 @@
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "几何正比于"
+     - T: "几何比例"
  - "∻":                                          # 0x223b
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
      - T: "位似于"
  - "∼": [T: "波浪运算符"]                         # 0x223c
- - "∽": [T: "相似于"]                      # 0x223d
+ - "∽": [T: "反转波浪号"]                      # 0x223d
  - "∾":                                          # 0x223e
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
      - T: "最正值"
  - "∿": [T: "正弦波"]                           # 0x223f
- - "≀": [T: "圈积"]                      # 0x2240
+ - "≀": [T: "环积"]                      # 0x2240
  - "≁": [T: "非波浪号"]                           # 0x2241
  - "≂": [T: "减波浪号"]                         # 0x2242
  - "≃":                                          # 0x2243
@@ -871,17 +1035,17 @@
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "全等于"
+     - T: "近似等于"
  - "≆":                                          # 0x2246
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
      - T: "近似但不等于"
  - "≇":                                          # 0x2247
-     - test: 
+     - test:
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "不全等于"
+     - T: "既不近似等于也不等于"
  - "≈":                                          # 0x2248
      - test: 
          if: "$Verbosity!='Terse'"
@@ -913,7 +1077,7 @@
      - test: 
          if: "$Verbosity!='Terse'"
          then: [OT: ""]
-     - T: "差"
+     - T: "相差"
  - "≐": [T: "趋于极限"]                # 0x2250
  - "≑":                                          # 0x2251
      - test: 
@@ -932,28 +1096,28 @@
      - T: "为像或约等于"
  - "≔": [T: "定义为"]                        # 0x2254
  - "≕": [T: "等号冒号"]                        # 0x2255
- - "≖": [T: "带圆圈的等号"]                    # 0x2256
+ - "≖": [T: "环等于"]                    # 0x2256
  - "≗":                                          # 0x2257
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "约等于"
+     - T: "圆圈等于"
  - "≘": [T: "对应"]                      # 0x2258
  - "≙": [T: "估计"]                           # 0x2259
  - "≚":                                          # 0x225a
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "等角"
+     - T: "等角于"
  - "≛": [T: "星等号"]                         # 0x225b
- - "≜": [T: "三角等号"]                        # 0x225c
+ - "≜": [T: "德尔塔等于"]                        # 0x225c
  - "≝": [T: "定义为"]                    # 0x225d
  - "≞":                                          # 0x225e
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
      - T: "度量为"
- - "≟": [T: "是否等于"]    # 0x225f
+ - "≟": [T: "问号等于"]    # 0x225f
  - "≠":                                          # 0x2260
      - test: 
          if: "$Verbosity!='Terse'"
@@ -1078,47 +1242,47 @@
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "真包含于"
+     - T: "子集"
  - "⊃":                                          # 0x2283
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "真包含"
+     - T: "超集"
  - "⊄":                                          # 0x2284
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "不真包含于"
+     - T: "非子集"
  - "⊅":                                          # 0x2285
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "不真包含"
+     - T: "非超集"
  - "⊆":                                          # 0x2286
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "包含于"
+     - T: "子集或等于"
  - "⊇":                                          # 0x2287
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "包含"
+     - T: "超集或等于"
  - "⊈":                                          # 0x2288
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "不包含于"
+     - T: "既非子集也不等于"
  - "⊉":                                          # 0x2289
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "不包含"
- - "⊊": [T: "真包含于"]         # 0x228a
- - "⊋": [T: "真包含"]       # 0x228b
+     - T: "既非超集也不等于"
+ - "⊊": [T: "真子集"]         # 0x228a
+ - "⊋": [T: "真超集"]       # 0x228b
  - "⊌": [T: "多重集"]                            # 0x228c
- - "⊍": [T: "多重集乘号"]             # 0x228d
- - "⊎": [T: "多重集并"]                      # 0x228e
+ - "⊍": [T: "多重集乘法"]             # 0x228d
+ - "⊎": [T: "多重集并集"]                      # 0x228e
  - "⊏": [T: "方形像"]                     # 0x228f
  - "⊐": [T: "方形原像"]                  # 0x2290
  - "⊑": [T: "方形像或等于"]         # 0x2291
@@ -1169,13 +1333,13 @@
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "正规包含于"
+     - T: "正规子群"
  - "⊳": [T: "包含正规子群"]       # 0x22b3
  - "⊴":                                          # 0x22b4
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "正规包含于或等于"
+     - T: "正规子群或等于"
  - "⊵": [T: "包含正规子群或等于"] # 0x22b5
  - "⊶":                                          # 0x22b6
      - test: 
@@ -1208,7 +1372,7 @@
 
  - "⋆": [T: "星号运算符"]                               # 0x22c6
  - "⋇": [T: "除号乘号"]                      # 0x22c7
- - "⋈": [T: "蝴蝶结"]                              # 0x22c8
+ - "⋈": [T: "自然连接"]                              # 0x22c8
  - "⋉":                                          # 0x22c9
     - test: 
         if: "$Verbosity!='Terse'"
@@ -1253,10 +1417,10 @@
          then: [OT: ""]
      - T: "双并集"
  - "⋔":                                          # 0x22d4
-     - test: 
+     - test:
          if: "$Verbosity!='Terse'"
          then: [OT: ""]
-     - T: "横截于"
+     - T: "叉形符号"
  - "⋕":                                          # 0x22d5
      - test: 
          if: "$Verbosity!='Terse'"
@@ -1268,12 +1432,12 @@
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "远远小于"
+     - T: "极小于"
  - "⋙":                                          # 0x22d9
      - test: 
          if: "$Verbosity!='Terse'"
          then: [T: ""]
-     - T: "远远大于"
+     - T: "极大于"
  - "⋚":                                          # 0x22da
      - test: 
          if: "$Verbosity!='Terse'"
@@ -1308,8 +1472,8 @@
  - "⋡": [T: "既不后于也不等于"]    # 0x22e1
  - "⋢": [T: "既非方形像也不等于"]        # 0x22e2
  - "⋣": [T: "既非方形原像也不等于"]      # 0x22e3
- - "⋤": [T: "为方形像但不等于"]     # 0x22e4
- - "⋥": [T: "为方形原像但不等于"]  # 0x22e5
+ - "⋤": [T: "方形像或不等于"]     # 0x22e4
+ - "⋥": [T: "方形原像或不等于"]  # 0x22e5
  - "⋦":                                          # 0x22e6
      - test: 
          if: "$Verbosity!='Terse'"
@@ -1334,10 +1498,10 @@
          then: [T: ""]
      - T: "既不是正规子群也不等于"
  - "⋭": [T: "既不包含正规子群也不等于"] # 0x22ed
- - "⋮": [T: "竖省略号"]                   # 0x22ee
- - "⋯": [T: "省略号"]                         # 0x22ef
- - "⋰": [T: "右上斜省略号"]           # 0x22f0
- - "⋱": [T: "右下斜省略号"]                   # 0x22f1
+ - "⋮": [T: "垂直省略号"]                   # 0x22ee
+ - "⋯": [T: "中线水平省略号"]                         # 0x22ef
+ - "⋰": [T: "右上对角线省略号"]           # 0x22f0
+ - "⋱": [T: "右下对角线省略号"]                   # 0x22f1
  - "⋲": [T: "带长横线的属于号"] # 0x22f2
  - "⋳": [T: "横线末端带竖线的属于号"] # 0x22f3
  - "⋴": [T: "横线末端带竖线的较小属于号"] # 0x22f4
@@ -2072,14 +2236,14 @@
  - "⨄": [T: "带加号的 n 元并集运算符"]          # 0x2a04
  - "⨅": [T: "n 元方交集运算符"]                 # 0x2a05
  - "⨆": [T: "n 元方并集运算符"]                 # 0x2a06
- - "⨇": [T: "二重逻辑与运算符"]            # 0x2a07
- - "⨈": [T: "二重逻辑或运算符"]             # 0x2a08
+ - "⨇": [T: "双逻辑与运算符"]                # 0x2a07
+ - "⨈": [T: "双逻辑或运算符"]                # 0x2a08
  - "⨉": [T: "n 元乘号运算符"]                    # 0x2a09
  - "⨊": [T: "模二和"]                      # 0x2a0a
  - "⨋": [T: "带积分号的求和"]             # 0x2a0b
  - "⨌": [T: "四重积分运算符"]         # 0x2a0c
  - "⨍": [T: "有限部积分"]                # 0x2a0d
- - "⨎": [T: "双划线积分"]         # 0x2a0e
+ - "⨎": [T: "双线积分"]         # 0x2a0e
  - "⨏": [T: "带斜线的平均积分号"]       # 0x2a0f
  - "⨐": [T: "环流函数"]                # 0x2a10
  - "⨑": [T: "逆时针积分"]           # 0x2a11
@@ -2116,7 +2280,7 @@
       - test: 
          if: "$Verbosity='Terse'"
          then: [T: "叉乘"]
-         else: [T: "向量叉积"]
+         else: [T: "向量叉乘"]
  - "⨰": [T: "上方带点的乘号"]  # 0x2a30
  - "⨱": [T: "下方带横线的乘号"]   # 0x2a31
  - "⨲": [T: "底部闭合的半直积"] # 0x2a32
@@ -2129,8 +2293,8 @@
  - "⨹": [T: "三角形内的加号"]               # 0x2a39
  - "⨺": [T: "三角形内的减号"]              # 0x2a3a
  - "⨻": [T: "三角形内的乘号"]     # 0x2a3b
- - "⨼": [T: "内乘"]                    # 0x2a3c
- - "⨽": [T: "右内乘"]          # 0x2a3d
+ - "⨼": [T: "内积"]                    # 0x2a3c
+ - "⨽": [T: "右内积"]          # 0x2a3d
  - "⨾": [T: "Z 记号关系复合"]    # 0x2a3e
  - "⨿": [T: "合并积或余积"]           # 0x2a3f
  - "⩀": [T: "带点的交集号"]               # 0x2a40
@@ -2194,8 +2358,8 @@
  - "⩺": [T: "内含圆圈的大于号"]     # 0x2a7a
  - "⩻": [T: "上方带问号的小于号"]  # 0x2a7b
  - "⩼": [T: "上方带问号的大于号"] # 0x2a7c
- - "⩽": [T: "小于等于"]       # 0x2a7d
- - "⩾": [T: "大于等于"]       # 0x2a7e
+ - "⩽": [T: "小于或倾斜等于"]       # 0x2a7d
+ - "⩾": [T: "大于或倾斜等于"]       # 0x2a7e
  - "⩿": [T: "内含点的小于或斜等号"] # 0x2a7f
  - "⪀": [T: "内含点的大于或斜等号"] # 0x2a80
  - "⪁": [T: "上方带点的小于或倾斜等号"] # 0x2a81
@@ -2204,14 +2368,14 @@
  - "⪄": [T: "左上方带点的大于或倾斜等号"] # 0x2a84
  - "⪅": [T: "小于或约等于"]            # 0x2a85
  - "⪆": [T: "大于或约等于"]            # 0x2a86
- - "⪇": [T: "小于与单线不等号"] # 0x2a87
- - "⪈": [T: "大于与单线不等号"] # 0x2a88
- - "⪉": [T: "小于与不约等号"]       # 0x2a89
- - "⪊": [T: "大于与不约等号"]    # 0x2a8a
+ - "⪇": [T: "小于且不等于"] # 0x2a87
+ - "⪈": [T: "大于且不等于"] # 0x2a88
+ - "⪉": [T: "小于且不约等于"]       # 0x2a89
+ - "⪊": [T: "大于且不约等于"]    # 0x2a8a
  - "⪋": [T: "小于号、双线等号、大于号从上到下排列"] # 0x2a8b
  - "⪌": [T: "大于号、双线等号、小于号从上到下排列"] # 0x2a8c
- - "⪍": [T: "小于号在渐近等号上方"]    # 0x2a8d
- - "⪎": [T: "大于号在渐近等号上方"] # 0x2a8e
+ - "⪍": [T: "小于、相似或等于"]    # 0x2a8d
+ - "⪎": [T: "大于、相似或等于"] # 0x2a8e
  - "⪏": [T: "小于号、相似号、大于号从上到下排列"] # 0x2a8f
  - "⪐": [T: "大于号、相似号、小于号从上到下排列"] # 0x2a90
  - "⪑": [T: "小于号、大于号、双线等号从上到下排列"] # 0x2a91
@@ -2264,16 +2428,16 @@
  - "⫀": [T: "下方带加号的超集符号"]       # 0x2ac0
  - "⫁": [T: "下方带乘号的子集符号"] # 0x2ac1
  - "⫂": [T: "下方带乘号的超集符号"] # 0x2ac2
- - "⫃": [T: "上方带点的包含于或等于号"] # 0x2ac3
- - "⫄": [T: "上方带点的包含或等于号"] # 0x2ac4
+ - "⫃": [T: "上方带点的子集或等于号"] # 0x2ac3
+ - "⫄": [T: "上方带点的超集或等于号"] # 0x2ac4
  - "⫅": [T: "子集符号在等号上方"]         # 0x2ac5
  - "⫆": [T: "超集符号在等号上方"]       # 0x2ac6
  - "⫇": [T: "子集符号在波浪运算符上方"]      # 0x2ac7
  - "⫈": [T: "超集符号在波浪运算符上方"]    # 0x2ac8
  - "⫉": [T: "子集符号在约等号上方"]     # 0x2ac9
  - "⫊": [T: "超集符号在约等号上方"]   # 0x2aca
- - "⫋": [T: "真包含于"]           # 0x2acb
- - "⫌": [T: "真包含"]      # 0x2acc
+ - "⫋": [T: "真子集"]           # 0x2acb
+ - "⫌": [T: "真超集"]      # 0x2acc
  - "⫍": [T: "左侧开口的方框运算符"]       # 0x2acd
  - "⫎": [T: "右侧开口的方框运算符"]      # 0x2ace
  - "⫏": [T: "闭子集"]                       # 0x2acf

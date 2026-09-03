@@ -29,6 +29,47 @@
   replace:
   - T: "" # say nothing -- placeholder
 
+- name: conditional-probability-notation
+  tag: mrow
+  match:
+  - "count(*)>2 and *[1][self::m:mi and .='P'] and"
+  - "*[2][self::m:mo and .='⁢' and @data-function-guess] and"
+  - "*[3][self::m:mrow and IsBracketed(., '(', ')') and"
+  - "     *[2][self::m:mrow and count(*)=3 and *[2][self::m:mo and .='|']]]"
+  replace:
+  - T: "在"
+  - x: "*[3]/*[2]/*[3]"
+  - T: "条件下"
+  - x: "*[3]/*[2]/*[1]"
+  - T: "的概率"
+  - test:
+      if: "count(*)>3"
+      then: [x: "*[position()>3]"]
+
+- name: probability-notation
+  tag: mrow
+  match:
+  - "count(*)=3 and *[1][self::m:mi and .='P'] and"
+  - "*[2][self::m:mo and (.='⁡' or (.='⁢' and @data-function-guess))] and"
+  - "*[3][self::m:mrow and IsBracketed(., '(', ')') and"
+  - "     not(*[2]//m:mo[.=',' or .='|'])]"
+  replace:
+  - x: "*[3]/*[2]"
+  - T: "的概率"
+
+- name: floor-and-ceiling-notation
+  tag: mrow
+  match:
+  - "count(*)=3 and"
+  - "((*[1][self::m:mo and .='⌊'] and *[3][self::m:mo and .='⌋']) or"
+  - " (*[1][self::m:mo and .='⌈'] and *[3][self::m:mo and .='⌉']))"
+  replace:
+  - x: "*[2]"
+  - test:
+      if: "*[1][.='⌊']"
+      then: [T: "向下取整"]
+      else: [T: "向上取整"]
+
 - name: default
   tag: mrow
   match: "."
@@ -236,6 +277,13 @@
   - T: "下方有"      # phrase(x 'with' z below it)
   - x: "*[2]"
   - T: ""      # phrase(x with z 'below' it)
+
+- name: tilde-modified-variable
+  tag: mover
+  match: "*[1][self::m:mi] and *[2][.='̃' or .='~']"
+  replace:
+  - x: "*[1]"
+  - T: "上加波浪线"
 
 - name: diacriticals
   tag: mover
