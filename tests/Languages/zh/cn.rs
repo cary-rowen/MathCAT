@@ -2007,6 +2007,27 @@ fn audited_unicode_ranges_keep_their_boundaries() -> Result<()> {
 }
 
 #[test]
+fn enclosed_alphanumeric_names_use_consistent_mainland_terms() -> Result<()> {
+    // Negative circled capitals and double-circled digits must match NVDA's established terms.
+    let cases = [
+        ("1f150", "带圈反白 大写 a"),
+        ("1f169", "带圈反白 大写 z"),
+        ("24f5", "双圈 1"),
+        ("24fd", "双圈 9"),
+        ("24fe", "双圈数字十"),
+    ];
+
+    for style in ["SimpleSpeak", "ClearSpeak"] {
+        for (codepoint, expected) in cases {
+            let expr = format!("<math><mi>&#x{codepoint};</mi></math>");
+            test("zh", style, &expr, expected)
+                .map_err(|error| anyhow::anyhow!("{style}/U+{codepoint}: {error}"))?;
+        }
+    }
+    Ok(())
+}
+
+#[test]
 fn unicode_dingbats_editorial_marks_and_compatibility_units_are_precise() -> Result<()> {
     // Less common symbols still need exact names because visual context is unavailable to speech users.
     let cases = [
