@@ -3400,7 +3400,7 @@
           else: [x: "$SpeechOverrides_CapitalLetters"] 
     - pitch:
         value: "$CapitalLetters_Pitch"
-        replace: [T: "尖音 s"]
+        replace: [T: "德语双 s"]
  - "":                                          # 0xf19c
     - test: 
         if: "$CapitalLetters_Beep"
