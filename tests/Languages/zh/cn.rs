@@ -976,7 +976,7 @@ fn unicode_letter_currency_and_operator_names_match_character_identity() -> Resu
         ("2129", "倒置希腊小写字母约塔"),
         ("223c", "波浪运算符"),
         ("223d", "反转波浪号"),
-        ("2240", "环积"),
+        ("2240", "圈积"),
         ("2244", "不渐近等于"),
         ("2246", "近似但不等于"),
         ("2257", "圆圈等于"),
@@ -1013,6 +1013,7 @@ fn unicode_arrows_shapes_and_ornaments_name_visible_features() -> Result<()> {
         ("21c4", "上方右箭头下方左箭头"),
         ("21c5", "左侧上箭头右侧下箭头"),
         ("21c6", "上方左箭头下方右箭头"),
+        ("21f5", "左侧下箭头右侧上箭头"),
         ("21ea", "从横线向上的白色箭头"),
         ("25cd", "竖直线填充的圆"),
         ("25d4", "右上象限为黑色的圆"),
@@ -1030,6 +1031,72 @@ fn unicode_arrows_shapes_and_ornaments_name_visible_features() -> Result<()> {
         ("2774", "中等左花括号装饰符"),
     ];
 
+    for (codepoint, expected) in cases {
+        let expr = format!("<math><mo>&#x{codepoint};</mo></math>");
+        test("zh", "SimpleSpeak", &expr, expected)
+            .map_err(|error| anyhow::anyhow!("U+{codepoint}: {error}"))?;
+    }
+    Ok(())
+}
+
+#[test]
+fn cjk_brackets_and_dashes_use_standard_simplified_names() -> Result<()> {
+    // Match the Unicode CLDR zh TTS names for CJK brackets and the wavy dash.
+    let cases = [
+        ("3008", "左尖括号"),
+        ("3009", "右尖括号"),
+        ("300a", "左双尖括号"),
+        ("300b", "右双尖括号"),
+        ("300c", "左角括号"),
+        ("300d", "右角括号"),
+        ("300e", "左中空角括号"),
+        ("300f", "右中空角括号"),
+        ("3010", "左黑色透镜状方括号"),
+        ("3011", "右黑色透镜状方括号"),
+        ("3016", "左中空透镜状方括号"),
+        ("3017", "右中空透镜状方括号"),
+        ("301c", "波浪号"),
+        ("3030", "波浪型破折号"),
+    ];
+
+    for (codepoint, expected) in cases {
+        let expr = format!("<math><mo>&#x{codepoint};</mo></math>");
+        test("zh", "SimpleSpeak", &expr, expected)
+            .map_err(|error| anyhow::anyhow!("U+{codepoint}: {error}"))?;
+    }
+    Ok(())
+}
+
+#[test]
+fn unicode_dash_and_quill_bracket_names_follow_mainland_usage() -> Result<()> {
+    // CLDR zh uses 连接号、破折号、横条 for U+2013..U+2015. The quill
+    // brackets use the same 羽毛笔 wording as U+2E20/U+2E21 above.
+    let cases = [
+        ("2013", "连接号"),
+        ("2014", "破折号"),
+        ("2015", "横条"),
+        ("2045", "带羽毛笔的左方括号"),
+        ("2046", "带羽毛笔的右方括号"),
+    ];
+    for (codepoint, expected) in cases {
+        let expr = format!("<math><mo>&#x{codepoint};</mo></math>");
+        test("zh", "SimpleSpeak", &expr, expected)
+            .map_err(|error| anyhow::anyhow!("U+{codepoint}: {error}"))?;
+    }
+    Ok(())
+}
+
+#[test]
+fn unicode_punctuation_and_currency_names_use_mainland_terms() -> Result<()> {
+    // “数字线” is the Chinese name used for FIGURE DASH; the other names
+    // avoid Traditional wording and distinguish a minus sign from a negative sign.
+    let cases = [
+        ("2012", "数字线"),
+        ("2040", "字符连接符"),
+        ("2052", "商业减号"),
+        ("20b6", "图尔里弗尔"),
+        ("20b8", "坚戈符号"),
+    ];
     for (codepoint, expected) in cases {
         let expr = format!("<math><mo>&#x{codepoint};</mo></math>");
         test("zh", "SimpleSpeak", &expr, expected)
@@ -1476,7 +1543,7 @@ fn audited_unicode_gap_symbols_have_direct_and_contextual_coverage() -> Result<(
         ("2a8a", "大于且不约等于"),
         ("2acc", "真超集"),
         ("2298", "带圆圈除号斜线"),
-        ("22d4", "横截于"),
+        ("22d4", "真相交"),
         ("29fe", "Tiny 算子"),
         ("29ff", "Miny 算子"),
         ("2ae1", "带 S 的垂直符号"),
@@ -1486,7 +1553,7 @@ fn audited_unicode_gap_symbols_have_direct_and_contextual_coverage() -> Result<(
         ("220c", "x", "大写 a 不包含 x"),
         ("220d", "x", "大写 a 小型包含 x"),
         ("2298", "B", "大写 a 带圆圈除号斜线, 大写 b"),
-        ("22d4", "B", "大写 a 横截于 大写 b"),
+        ("22d4", "B", "大写 a 真相交 大写 b"),
         ("2a87", "b", "大写 a 小于且单线不等于 b"),
         ("2a88", "b", "大写 a 大于且单线不等于 b"),
         ("2ae1", "B", "大写 a 带 S 的垂直符号, 大写 b"),
@@ -1537,13 +1604,13 @@ fn remaining_unicode_phase_symbols_have_verified_readings() -> Result<()> {
             "20ec",
             "munder",
             "v",
-            "v 下加倒钩向下的向右鱼叉箭头",
+            "v 下加带向下倒钩的向右鱼叉箭头",
         ),
         (
             "20ed",
             "munder",
             "v",
-            "v 下加倒钩向下的向左鱼叉箭头",
+            "v 下加带向下倒钩的向左鱼叉箭头",
         ),
         ("20ee", "munder", "v", "v 下加向左箭头"),
         ("20f0", "mover", "x", "x 上加星号"),
@@ -1873,7 +1940,7 @@ fn audited_mathtype_private_use_symbols_match_their_source_names() -> Result<()>
         ("e92e", "竖线运算符"),
         ("e92f", "双竖线运算符"),
         ("e930", "三重竖线运算符"),
-        ("e949", "最正值"),
+        ("e949", "反转波浪号"),
         ("e950", "带竖线的正规包含于"),
         ("e951", "带竖线的包含正规子群"),
         ("e982", "带方框的直角变体"),
@@ -1901,6 +1968,7 @@ fn audited_mathtype_private_use_symbols_match_their_source_names() -> Result<()>
         ("eb04", "向左鱼叉箭头上方的小型向右鱼叉箭头"),
         ("eb0f", "带斜线的大型左右箭头"),
         ("eb11", "带斜线的大型左右双箭头"),
+        ("eb12", "左侧下箭头右侧上箭头"),
         ("eb18", "带尾部和斜线的向右箭头"),
         (
             "eb36",
@@ -2201,6 +2269,165 @@ fn mathtype_greek_and_digit_ranges_keep_verified_character_order() -> Result<()>
 }
 
 #[test]
+fn remaining_mathtype_and_unicode_slots_match_verified_sources() -> Result<()> {
+    // Cover the remaining digit ranges and source-identified MathType PUA glyphs slot by slot.
+    for start in [0xf556, 0x1d7e2, 0x1d7f6] {
+        for digit in 0..=9 {
+            let codepoint = start + digit;
+            let expr = format!("<math><mi>&#x{codepoint:x};</mi></math>");
+            test("zh", "SimpleSpeak", &expr, &digit.to_string())
+                .map_err(|error| anyhow::anyhow!("U+{codepoint:04X}: {error}"))?;
+        }
+    }
+
+    let cases = [
+        (0xf700, "未知字符"),
+        (0xf726, "左下和右下三角形"),
+        (0xf72d, "水平省略号延伸段"),
+        (0xf72e, "中线水平省略号延伸段"),
+        (0xf8e5, "根号延伸段"),
+        (0xf8e6, "竖直箭头延伸段"),
+        (0xf8e7, "水平箭头延伸段"),
+        (0xf8e8, "无衬线体注册符号"),
+        (0xf8e9, "无衬线体版权符号"),
+        (0xf8ea, "无衬线体商标符号"),
+        (0xf8eb, "左圆括号顶部"),
+        (0xf8ec, "左圆括号延伸段"),
+        (0xf8ed, "左圆括号底部"),
+        (0xf8ee, "左方括号顶部"),
+        (0xf8ef, "左方括号延伸段"),
+        (0xf8f0, "左方括号底部"),
+        (0xf8f1, "左花括号顶部"),
+        (0xf8f2, "左花括号中部"),
+        (0xf8f3, "左花括号底部"),
+        (0xf8f4, "花括号延伸段"),
+        (0xf8f5, "积分号延伸段"),
+        (0xf8f6, "右圆括号顶部"),
+        (0xf8f7, "右圆括号延伸段"),
+        (0xf8f8, "右圆括号底部"),
+        (0xf8f9, "右方括号顶部"),
+        (0xf8fa, "右方括号延伸段"),
+        (0xf8fb, "右方括号底部"),
+        (0xf8fc, "右花括号顶部"),
+        (0xf8fd, "右花括号中部"),
+        (0xf8fe, "右花括号底部"),
+        (0xf8ff, "苹果标志"),
+    ];
+    for (codepoint, expected) in cases {
+        let expr = format!("<math><mo>&#x{codepoint:x};</mo></math>");
+        test("zh", "SimpleSpeak", &expr, expected)
+            .map_err(|error| anyhow::anyhow!("U+{codepoint:04X}: {error}"))?;
+    }
+    Ok(())
+}
+
+#[test]
+fn remaining_ligatures_combining_halves_and_small_forms_match_unicode() -> Result<()> {
+    // Cover the compatibility and combining-form names not already checked by focused tests.
+    let cases = [
+        ("fb00", "ff 连字"),
+        ("fb01", "fi 连字"),
+        ("fb02", "fl 连字"),
+        ("fb03", "ffi 连字"),
+        ("fb04", "ffl 连字"),
+        ("fb06", "st 连字"),
+        ("fb29", "希伯来文替代加号"),
+        ("fe20", "上加连字左半部"),
+        ("fe21", "上加连字右半部"),
+        ("fe22", "上加双波浪号左半部"),
+        ("fe23", "上加双波浪号右半部"),
+        ("fe24", "上加长音符左半部"),
+        ("fe25", "上加长音符右半部"),
+        ("fe26", "上加连接长音符"),
+        ("fe61", "小型星号"),
+        ("fe62", "小型加号"),
+        ("fe63", "小型连字符减号"),
+        ("fe66", "小型等号"),
+    ];
+    for (codepoint, expected) in cases {
+        let expr = format!("<math><mo>&#x{codepoint};</mo></math>");
+        test("zh", "SimpleSpeak", &expr, expected)
+            .map_err(|error| anyhow::anyhow!("U+{codepoint}: {error}"))?;
+    }
+    Ok(())
+}
+
+#[test]
+fn remaining_fullwidth_and_replacement_characters_have_verified_readings() -> Result<()> {
+    // Cover the final Unicode compatibility characters, including NVDA's established caret term.
+    let cases = [
+        ("ff0b", "全角加号"),
+        ("ff1c", "小于"),
+        ("ff1d", "等于"),
+        ("ff1e", "大于"),
+        ("ff3c", "反斜杠"),
+        ("ff3e", "全角脱字符"),
+        ("ff5c", "竖线"),
+        ("ff5e", "波浪号"),
+        ("ffe2", "非"),
+        ("ffe9", "向左箭头"),
+        ("ffea", "向上箭头"),
+        ("ffeb", "向右箭头"),
+        ("ffec", "向下箭头"),
+        ("fffc", "未知或缺失的对象"),
+        ("fffd", "缺失字符"),
+    ];
+    for (codepoint, expected) in cases {
+        let expr = format!("<math><mo>&#x{codepoint};</mo></math>");
+        test("zh", "SimpleSpeak", &expr, expected)
+            .map_err(|error| anyhow::anyhow!("U+{codepoint}: {error}"))?;
+    }
+    test(
+        "zh",
+        "SimpleSpeak",
+        "<math><mover accent='true'><mi>x</mi><mo>&#xff3e;</mo></mover></math>",
+        "x 上方有 帽符",
+    )?;
+    Ok(())
+}
+
+#[test]
+fn mathjax_v4_private_use_chemistry_symbols_match_their_source_semantics() -> Result<()> {
+    // MathJax mhchem emits these PUA code points for partial bonds and arrows.
+    let cases = [
+        ("e410", "部分单键"),
+        ("e411", "部分双键"),
+        ("e412", "部分三键"),
+        ("e413", "部分三键"),
+        ("e428", "长向左箭头"),
+        ("e429", "长向右箭头"),
+        ("e42a", "长左右箭头"),
+        ("e408", "可逆反应"),
+        ("e409", "平衡偏右"),
+        ("e40a", "平衡偏左"),
+        ("e42b", "上方右箭头下方左箭头"),
+        ("e42c", "向左箭头"),
+        ("e42d", "向右箭头"),
+        ("e42e", "左右箭头"),
+    ];
+    for (codepoint, expected) in cases {
+        let expr = format!(
+            "<math><mo mathvariant='-mhchem' data-mjx-texclass='REL'>&#x{codepoint};</mo></math>"
+        );
+        test("zh", "SimpleSpeak", &expr, expected)
+            .map_err(|error| anyhow::anyhow!("MathJax PUA U+{codepoint}: {error}"))?;
+    }
+
+    for (codepoint, latex, expected) in [
+        ("e408", r"\mhchemlongrightleftharpoons", "大写 h 可逆反应 大写 i"),
+        ("e409", r"\mhchemlongRightleftharpoons", "大写 h 平衡偏右 大写 i"),
+        ("e40a", r"\mhchemlongLeftrightharpoons", "大写 h 平衡偏左 大写 i"),
+    ] {
+        let expr = format!(
+            "<math><mrow data-mjx-texclass='ORD'><mi mathvariant='normal'>H</mi><mo mathvariant='-mhchem' data-mjx-texclass='REL' stretchy='true' data-latex='{latex}'>&#x{codepoint};</mo><mi mathvariant='normal'>I</mi></mrow></math>"
+        );
+        test("zh", "SimpleSpeak", &expr, expected)
+            .map_err(|error| anyhow::anyhow!("MathJax chemistry U+{codepoint}: {error}"))?;
+    }
+    Ok(())
+}
+
+#[test]
 fn enclosed_alphanumeric_names_use_consistent_mainland_terms() -> Result<()> {
     // Negative circled capitals and double-circled digits must match NVDA's established terms.
     let cases = [
@@ -2224,6 +2451,7 @@ fn enclosed_alphanumeric_names_use_consistent_mainland_terms() -> Result<()> {
 #[test]
 fn unicode_dingbats_editorial_marks_and_compatibility_units_are_precise() -> Result<()> {
     // Less common symbols still need exact names because visual context is unavailable to speech users.
+    // U+33C2/U+33D8 decompose to a.m./p.m.; they are not atto-/picometre units.
     let cases = [
         ("2798", "粗向右下箭头"),
         ("27a2", "顶部高亮的立体向右箭头尖"),
