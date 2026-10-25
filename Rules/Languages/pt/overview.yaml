@@ -12,95 +12,85 @@
 # There is a balance that you want to maximize the info given, so 10 words is likely better then 3.
 #   That might mean that at the top level, we may want to allow the first few children to expand
 
-- name: default
-  tag: math
-  match: "."
-  replace: [x: "*[1]"]
 
-- name: default
-  tag: [mi, mn, mo, mtext]
-  match: "."
-  replace: [x: text()]
-
-- name: default
-  tag: mfrac
+- name: overview-default
+  tag: [fraction, mfrac]   
   match: "."
   replace:
   - test:
       if: "IsNode(*[1], 'simple') and IsNode(*[2], 'simple')"
       then:
       - x: "*[1]"
-      - t: "超过"
+      - T: "sobre"
       - x: "*[2]"
       else:
-      - t: "分数"
+      - T: "fração"
 
-- name: default
-  tag: msqrt
+- name: overview-default
+  tag: [msqrt, "square-root"]   # CORREÇÃO: idem
   match: "."
   replace:
-  - t: "平方根"
+  - T: "raiz quadrada"
   - test:
       if: "IsNode(*[1], 'simple')"
       then:
       - test:
           if: "$Verbosity!='Terse'"
-          then: [t: "的"]
+          then: [T: de]
       - x: "*[1]"
 
-- name: default
-  tag: mroot
+- name: overview-default
+  tag: [mroot, root]   # CORREÇÃO: idem
   match: "."
   replace:
   - test:
       if: "*[2][self::m:mn]"
       then_test:
-      - if: "*[2][text()='2']"
-        then: [t: "平方根"]
-      - else_if: "*[2][text()='3']"
-        then: [t: "立方根"]
+      - if: "*[2][.='2']"
+        then: [T: raiz quadrada]
+      - else_if: "*[2][.='3']"
+        then: [T: raiz cúbica]
       - else_if: "*[2][not(contains(., '.'))]"
-        then: [x: "ToOrdinal(*[2])", t: "根"]
+        then: [T: raiz, T: de índice, x: "*[2]"]
       else:
-      - test:
-          if: "*[2][self::m:mi][string-length(.)=1]"
-          then:
-          - x: "*[2]"
-          - pronounce: [{text: "-th"}, {ipa: "θ"}, {sapi5: "th"}, {eloquence: "T"}]
-          else: {x: "*[2]"}
-      - t: "根"
+      # índice simbólico (ex.: raiz de índice n) — em português a ordem natural
+      # é "raiz de índice n", diferente do inglês "n-th root".
+      - T: raiz
+      - T: de índice
+      - x: "*[2]"
   - test:
       if: "IsNode(*[1], 'simple')"
       then:
       - test:
           if: "$Verbosity!='Terse'"
-          then: [t: "的"]
+          then: [T: de]
       - x: "*[1]"
 
-- name: default
-  tag: mtable
+- name: matrix-override
+  tag: mrow
   match:
   - "*[2][self::m:mtable] and"
   - "(IsBracketed(., '(', ')') or IsBracketed(., '[', ']') or IsBracketed(., '|', '|'))"
   replace:
-  - t: "这"
-  - x: count(*[2]/*)
-  - t: "经过"
-  - x: count(*[2]/*[self::m:mtr][1]/*)
+  # CORREÇÃO: a ordem herdada do inglês ("the 2 by 3 matrix") produzia
+  # "a 2 por 3 matriz". Em português o substantivo vem antes da dimensão.
   - test:
-      if: "*[1][text()='|']" # just need to check the first bracket since we know it must be (, [, or |
-      then: [t: "决定因素"]
-      else: [t: "矩阵"]
+      if: "*[1][.='|']" # just need to check the first bracket since we know it must be (, [, or |
+      then: [T: determinante]
+      else: [T: matriz]
+  - x: count(*[2]/*)
+  - T: por
+  - x: count(*[2]/*[self::m:mtr][1]/*)
 
-- name: default
+- name: overview-default
   tag: mtable
   match: "."
   replace:
-  - t: "这"
+  # CORREÇÃO: mesma inversão de ordem do bloco acima.
+  - T: "tabela"
   - x: count(*[2]/*)
-  - t: "经过"
+  - T: por
   - x: count(*[2]/*[self::m:mtr][1]/*)
-  - t: "桌子"
 
 - name: short-mrow
   tag: mrow
@@ -124,6 +114,6 @@
   - pause: auto
   - x: "*[5]"
   - pause: auto
-  - t: "等等"
+  - T: "etc."
 
 - include: "SimpleSpeak_Rules.yaml"

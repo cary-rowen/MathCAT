@@ -534,9 +534,9 @@ fn set_marked_chemistry_attr(mathml: Element, chem: &str) {
                 // inherit from the base
                 let base = as_element(mathml.children()[0]);
                 if let Some(base_chem) = base.attribute(CHEM_EQUATION_OPERATOR) {
-                    mathml.set_attribute_value(CHEM_EQUATION_OPERATOR, base_chem.value());
+                    mathml.set_attribute_value(CHEM_EQUATION_OPERATOR, as_str!(base_chem.value()));
                 } else if let Some(base_chem) = base.attribute(CHEM_FORMULA_OPERATOR) {
-                    mathml.set_attribute_value(CHEM_FORMULA_OPERATOR, base_chem.value());
+                    mathml.set_attribute_value(CHEM_FORMULA_OPERATOR, as_str!(base_chem.value()));
                 }
             }
             _ => error!("Internal error: {} should not be marked as 'MAYBE_CHEMISTRY'", tag_name),
@@ -1402,17 +1402,14 @@ pub fn likely_adorned_chem_formula(mathml: Element) -> i32 {
         // prescripts are normally positive integers, chem 2.5.1 allows for a superscript for a Lewis dot
         // postscript should be a charge
 
-        let prescripts;
-        let postscripts;
-        if children.len() == 4 && name(as_element(children[1]))=="mprescripts" { // just prescripts
-            prescripts = &children[2..4];
-            postscripts = &children[0..0]; // empty
+        
+        
+        let (prescripts, postscripts) = if children.len() == 4 && name(as_element(children[1]))=="mprescripts" { // just prescripts
+            (&children[2..4], &children[0..0]) // empty
         } else if children.len() == 6 && name(as_element(children[3]))=="mprescripts" {  // pre and postscripts
-            prescripts = &children[4..6];
-            postscripts = &children[1..3]; // empty
+            (&children[4..6], &children[1..3]) // empty
         } else if children.len() == 3 || children.len() == 5 {   // just postscripts (simultaneous or offset)
-            prescripts = &children[0..0]; // empty
-            postscripts = &children[1..];
+            (&children[0..0], &children[1..])
         } else {
             return NOT_CHEMISTRY;
         };
@@ -1656,7 +1653,7 @@ fn likely_chem_equation_operator(mathml: Element) -> i32 {
     return -3;  // there is still a chance
 
     /// Detects output of mhchem for some equilibrium arrows that currently (11/22) don't have Unicode points
-    /// See github.com/NSoiffer/MathCAT/issues/60 for the patterns being matched
+    /// See github.com/daisy/MathCAT/issues/60 for the patterns being matched
     fn is_hack_for_missing_arrows(mover: Element) -> bool {
         assert_eq!(name(mover), "mover");
         let children = mover.children();
