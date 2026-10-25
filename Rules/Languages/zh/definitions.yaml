@@ -11,60 +11,30 @@
 #
 # - Each mapping has the form:
 #     "<intent>": "<fixity1>=<speech1> || <fixity2>=<speech2> || ...",
-#   or just
-#     "<intent>": "<speech>",
-#   where <speech> is used for all forms if fixity and '=' are omitted.
+#   and every alternative names its fixity explicitly.
 #
-# - If an intent has multiple fixities, separate them with "||". Spaces are allowed around delimiters for readability.
-# - If only one ":" is present in *<speech>*, it provides the 'terse' form, and the following string is used for both 'medium' and 'verbose'.
-# - If more than one ":" is present, the string is split into 'terse', 'medium', and 'verbose' forms, in that order (each separated by ":").
-# - If no ":" is present, the same spoken form is used for all styles.
-#
-# - Use semicolons ";" to divide opening, main, and closing bracketing words within a speech string, where such words make sense.
+# - If an intent has multiple fixities, separate them with "||". Spaces are allowed around delimiters.
+# - Within a speech string, "|" selects the verbosity form: one separator gives terse and
+#   medium/verbose, while two separators give terse, medium, and verbose.
+# - Use semicolons ";" to divide opening, main, and closing bracketing words within the name part.
 # - If an intent has multiple fixities but a definition does not specify one, the first fixity listed is chosen by default.
 #
 # Functions and argument glue:
-# - The "|" character delimits options describing how to glue arguments together when speaking function arguments.
-# - Arity templates (multiple "|" options, or one option with ','-separated glue words): glue-word count
-#   implies arity; the final argument is preceded by "of". Example: "sum | over | from,to"
-#      - 1 arg:  "sum of x"
-#      - 2 args: "sum over i of x"
-#      - 3 args: "sum from i to n of x"
-#   If no option matches the argument count, separators fall back to "comma".
-# - Binary separator (exactly one "|" option, no commas in it): after "of", that word joins the two args.
-#   Example: "quotient": "function=integer part | divided by" → "integer part of x divided by y"
-#   If there are not exactly two args, separators fall back to "comma" (no real n-ary use of these words).
+# - ":" separates the name/bracketing phrase from argument-glue options.
+# - Multiple ":" options (or comma-separated glue words) select the function arity; the final
+#   argument is preceded by "of". Example: "sum: over: from,to".
+# - A single ":" option is a binary separator after "of". If the arity does not match,
+#   arguments fall back to "comma".
 #
-# BNF-like description:
-#
-#   IntentMappingsEntry ::= <intent> ":" <intent_speech>
-#
-#   <intent_speech> ::= <fixity_speech> ( "||" <fixity_speech> )*
-#                    | <simple_speech>
-#
-#   <fixity_speech> ::= <fixity> "=" <speech_options>
-#
-#   <fixity> ::= "prefix" | "infix" | "postfix" | "function" | "nofix" | "silent"
-#
-#   <speech_options> ::= <speech_string>
-#                     | <speech_string> "|" <arg_glue> ( "|" <arg_glue> )*
-#
-#   <speech_string> ::= text
-#       # May use ":" to separate terse:medium:verbose forms.
-#       # May use ";" for bracketing (opening; main; closing).
-#
-#   <arg_glue> ::= text
-#       # One option, no commas: binary separator after "of" (e.g. "divided by").
-#       # One option with "," or several "|" options: arity templates
-#       # (glue-word count = arg_count - 1; last arg preceded by "of").
-#       # Unmatched arity (or binary glue with ≠2 args): fall back to "comma".
-#
-#   <simple_speech> ::= <speech_string> (applies to all fixities)
+# Conceptual grammar:
+#   <fixity_speech> ::= <fixity> "=" <speech_part> ( ":" <arg_glue> )*
+#   <speech_part> ::= <segment> [ ";" <segment> ";" <segment> ]
+#   <segment> ::= <word> [ "|" <word> [ "|" <word> ] ]
 #
 # Example:
-#   "absolute-value": "function= ; absolute value: the absolute value: the absolute value; end absolute value"
-#   "sum": "function=sum | over | from,to"
-#   "quotient": "function=integer part | divided by"
+#   "absolute-value": "function= ; 绝对值| 绝对值| 绝对值; 结束绝对值"
+#   "sum": "function=求和: 遍历: 从,到"
+#   "quotient": "function=商: 除以"
 #
 - IntentMappings: {
     "binomial": "infix=二项式系数; 取; 结束二项式系数",
@@ -94,7 +64,7 @@
     "greatest-common-divisor": "function=最大公约数",
     "least-common-multiple": "function=最小公倍数", # In webpage typo "lest common"
 
-    "absolute-value": "function= ; 绝对值: 绝对值: 绝对值; 结束绝对值",
+    "absolute-value": "function= ; 绝对值| 绝对值| 绝对值; 结束绝对值",
     "complex-conjugate": "function=共轭复数",
     "complex-arg": "function=辐角",
     "real-part": "function=实部",
@@ -122,18 +92,18 @@
 
 
     ### Sets
-    "set": "function= ; 集合: 集合",
-    "set-difference": "function=差集 | 与 || infix=差集",
+    "set": "function= ; 集合| 集合",
+    "set-difference": "function=差集: 与 || infix=差集",
     "complement": "function=补集",
     "empty-set": "nofix=空集",
     "cardinality": "function=基数", # NOTE: does not have a defined speech template in website
     "list": "function=列表",
-    "tuple": "function= ; 元组: 元组",
+    "tuple": "function= ; 元组| 元组",
 
 
     ### Sequence and Series
-    "sum": "function=求和 | 遍历 | 从,到",
-    "product": "function=乘积 | 遍历 | 从,到",
+    "sum": "function=求和: 遍历: 从,到",
+    "product": "function=乘积: 遍历: 从,到",
 
 
     ### Elementary classical functions
@@ -177,7 +147,7 @@
     "median": "function=中位数",
     "mode": "function=众数",
 
-    "conditional-probability": "function=条件概率 | 条件为", 
+    "conditional-probability": "function=条件概率: 条件为",
 
 
     ### Linear Algebra
@@ -186,7 +156,7 @@
     "determinant": "function=行列式",
     "adjugate": "function=伴随矩阵",
     "magnitude": "function=模",
-    "norm": "function=; 范数: 范数: 范数; 结束范数",
+    "norm": "function=; 范数| 范数| 范数; 结束范数",
     "span": "function=张成空间",
 
     "unit-vector": "prefix=单位向量",
@@ -197,12 +167,12 @@
 
 
     ### Constants and Sets
-    "set-of-integers": "nofix=整数集: 全体整数的集合",
-    "set-of-reals": "nofix=实数集: 全体实数的集合",
-    "set-of-rationals": "nofix=有理数集: 全体有理数的集合",
-    "set-of-natural-numbers": "nofix=自然数集: 全体自然数的集合",
-    "set-of-complex-numbers": "nofix=复数集: 全体复数的集合",
-    "set-of-primes": "nofix=素数集: 全体素数的集合",
+    "set-of-integers": "nofix=整数集| 全体整数的集合",
+    "set-of-reals": "nofix=实数集| 全体实数的集合",
+    "set-of-rationals": "nofix=有理数集| 全体有理数的集合",
+    "set-of-natural-numbers": "nofix=自然数集| 全体自然数的集合",
+    "set-of-complex-numbers": "nofix=复数集| 全体复数的集合",
+    "set-of-primes": "nofix=素数集| 全体素数的集合",
 
     
     ### Geometry
@@ -223,9 +193,9 @@
     ### General Concepts 
     "fenced-group": "function=括号组", # appears both under general concepts and grouping
      # NOTE: in site mentions "the pair x and y", due to being defined as function, needs the "of" keyword
-    "ordered-pair": "function=有序对 | 和", # Needs to be tested
+    "ordered-pair": "function=有序对: 和", # Needs to be tested
     # Simple last arg: "x sub k". Complex: "… end sub" (terse/medium) / "end subscript" (verbose) via infix-intent.
-    "indexed-by": "infix= ; 下标; 结束下标: 结束下标: 结束下标",
+    "indexed-by": "infix= ; 下标; 结束下标| 结束下标| 结束下标",
     
     "highlight": "postfix=已突出显示",
     "least-common-denominator": "function=最小公分母",
@@ -337,11 +307,11 @@
     "percent": "postfix=百分号",
 
     ## Default fixity nofix
-    "diameter": "nofix=d: 直径",
-    "distance": "nofix=d; D: 距离",
-    "probability": "nofix=P: 概率 || function=概率",
-    "radius": "nofix=r: 半径",
-    "volume": "nofix=V: 体积 || function=体积",
+    "diameter": "nofix=d| 直径",
+    "distance": "nofix=d; D| 距离",
+    "probability": "nofix=P| 概率 || function=概率",
+    "radius": "nofix=r| 半径",
+    "volume": "nofix=V| 体积 || function=体积",
     "exponential-e": "nofix=e",
     "imaginary-i": "nofix=i",
     "differential-d": "nofix=d",
@@ -357,17 +327,17 @@
     "lim-inf": "prefix=下极限，当",
     "logarithm-with-base": "prefix=对数，底数为",
     # "pochhammer": "function=升阶乘",  # arguments are in reverse order, so can't work here
-    "trace": "function= ; 迹: 迹: 迹; 结束迹",
-    "dimension": "function=; 维数: 维数: 维数; 结束维数",
-    "homomorphism": "function= ; 同态: 同态: 同态; 结束同态",
-    "kernel": "function= ; 核: 核: 核; 结束核",
+    "trace": "function= ; 迹| 迹| 迹; 结束迹",
+    "dimension": "function=; 维数| 维数| 维数; 结束维数",
+    "homomorphism": "function= ; 同态| 同态| 同态; 结束同态",
+    "kernel": "function= ; 核| 核| 核; 结束核",
     
-    "chemistry-concentration": "function= ; 浓度: 浓度: 浓度; 结束浓度",
+    "chemistry-concentration": "function= ; 浓度| 浓度| 浓度; 结束浓度",
   }
 
   # Names of functions that in terse mode don't say "of" (or it's equivalent in other languages)
 - TerseFunctionNames: {
-    "divergence", "del:gradient", "curl"
+    "divergence", "del|gradient", "curl"
   }
 
 - NavigationParts: {
